@@ -42,7 +42,7 @@ public class Main {
                         board.setDif();
                         break;
                     case 2:
-                        board.inspeccionarArea(board.tableroM, board.tableroJ, sc);
+                        board.inspeccionarArea(board.tableroM, board.tableroJ);
                         break;
                     case 3:
                         board.mostrarTableroM(board.tableroM);

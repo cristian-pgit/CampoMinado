@@ -5,8 +5,6 @@ public class Tablero {
     public Tablero() {
     }
 
-    ;
-
     static Random ran = new Random();
     static Scanner sc = new Scanner(System.in);
 
@@ -15,7 +13,7 @@ public class Tablero {
 
     public static int dif = 1;
 
-    public static List<Jugadas> jugadas = new ArrayList<Jugadas>();
+    public static List<Jugadas> jugadas = new ArrayList<>();
 
     public int movimientos = 0;
 
@@ -79,14 +77,14 @@ public class Tablero {
 
     }
 
-    private static boolean validarPosicion(String tableroM[][], int row, int col) {
+    private static boolean validarPosicion(String[][] tableroM, int row, int col) {
         // Checkear si esta dentro de los limites del tablero
         if (row < 0 || row + 1 > tableroM.length || col < 0 || col >= tableroM[0].length) {
             return false;
         }
         // Ver si hay algo ya en la ubicacion designada
         for (int i = 0; i < 1; i++) {
-            if (tableroM[row + i][col] != "[-]") {
+            if (!tableroM[row + i][col].equals("[-]")) {
                 return false;
             }
         }
@@ -97,15 +95,15 @@ public class Tablero {
 
     public static void setDif() {
         boolean difOK = false;
-        while (difOK == false) {
+        while (!difOK) {
             System.out.println(Ut.tYell("Indique la Dificultad a la que se desea jugar, Facil, Medio o Dificil "));
-            System.out.println(Ut.tPurp("De no indicarla se presume facil.") +
+            System.out.println(Ut.tPurp("El Juego por Default parte en Facil.") +
                     "Favor indique solo con un caracter" + Ut.tVerde("F") + "/" + Ut.tYell("M") + "/" + Ut.tRojo("D"));
             System.out.println(Ut.tRojo("[ADVERTENCIA]") + "Esto reiniciara las jugadas y el tablero.");
             System.out.print("Indique dificultad: ");
             String ans = "";
             ans = sc.nextLine();
-            if (ans.matches("^[fmd]+$")) {
+            if (ans.matches("^[FfMmdD]+$")) {
                 if (ans.equalsIgnoreCase("d")) {
                     Tablero.dif = 3;
                     System.out.println(Ut.tRojo("la dificultad actual es Dificil : ") + dif);
@@ -140,16 +138,16 @@ public class Tablero {
 
 
     //Metodo Inspeccionar donde se descubre lo que hay en la casilla seleccionada.
-    public static void inspeccionarArea(String tableroM[][], String tableroJ[][], Scanner sc) {
+    public static void inspeccionarArea(String[][] tableroM, String[][] tableroJ) {
         int x;
         int y;
         boolean lanzamientoOk = false;
-        while (lanzamientoOk == false) {
+        while (!lanzamientoOk) {
             try {
                 x = askX();
                 y = askY();
                 if (tableroJ[x][y].equals("[" + Ut.tBlue("I") + "]")) {
-                    System.out.println("Ya has lanzado un huevo en esta posicion");
+                    System.out.println("Ya has inspeccionado esta posicion");
                     break;
                 }
                 //Se identifica el huevo con la letra H
@@ -172,7 +170,7 @@ public class Tablero {
     //Te muestra el tablero a cambio de puntos, en caso de que no, se da mensaje.
     public static void mostrarTableroM(String[][] tableroM) {
         boolean consentir = false;
-        while (consentir == false) {
+        while (!consentir) {
             System.out.print(Ut.tRojo("[ADVERTENCIA]") + " Ver el tablero te costara 10pts, desea continuar? (y/n)");
             String ans = sc.nextLine();
             if (ans.matches("^[YyNn]$")) {
@@ -194,9 +192,9 @@ public class Tablero {
                 } else {
                     if (ans.equalsIgnoreCase("n")) {
                         System.out.println("Bien me parece, sin hacer trampas");
-                        consentir = true;
                         break;
                     }
+                    consentir = true;
                 }
             }
         }
@@ -217,12 +215,13 @@ public class Tablero {
 
 
     //Metodo que verifica si la celda inspeccionada tenia o no una mina Oculta.
-    public static void verificarInspeccion(String tableroM[][], String tableroJ[][], int x, int y) {
+    public static void verificarInspeccion(String[][] tableroM, String[][] tableroJ, int x, int y) {
         if (!tableroM[x][y].contains("[-]")) {
             if (tableroM[x][y].contains("M")) {
                 System.out.println(Ut.tRojo("HABIA UNA MINA OCULTA!! ") + Ut.tPurp("has volado en pedazos...."));
                 tableroJ[x][y] = "[" + Ut.tRojo("E") + "]";
                 gameOver();
+                endGameShow();
             }
         } else if (tableroM[x][y].equals("[-]")) {
             System.out.println(Ut.tCyan("La celda inspeccionada afortunadamente era segura, no hay minas aqui"));
@@ -247,7 +246,6 @@ public class Tablero {
                 preguntaOk = true;
             } catch (Exception e) {
                 System.out.println("Debe ser un número de 0 a 4, sin letras ni caracteres.");
-                continue;
             }
         }
         return x;
@@ -268,7 +266,6 @@ public class Tablero {
                 preguntaOk = true;
             } catch (Exception e) {
                 System.out.println("Debe ser un número de 0 a 4, sin letras ni caracteres.");
-                continue;
             }
         }
         return y;
@@ -296,13 +293,13 @@ public class Tablero {
     }
 
     public static void juegoPerdido(String[][] tableroM) {
-        if (perder == true) {
+        if (perder) {
             boolean resp = false;
-            while (resp == false) {
+            while (!resp) {
                 System.out.println(Ut.tBlue("Desea volver a Jugar?, se reseteara el juego (Y/N): "));
                 String ans = sc.nextLine();
                 if (ans.matches("^[YyNn]$")) {
-                    if (ans.equalsIgnoreCase("y")) {
+                    if (ans.equalsIgnoreCase("y") ||ans.equalsIgnoreCase("Y")) {
                         System.out.println("Dale!, otra oportunidad... me gusta tu persistencia");
                         System.out.println(Ut.tPurp("\tTus puntos han sido reseteados y el sistema se ha renovado"));
                         generarTableroM();
@@ -312,11 +309,13 @@ public class Tablero {
                         puntaje = 0;
                         perder = false;
                         resp = true;
+                    } else if (ans.equalsIgnoreCase("n")) {
+                        System.out.println("Hasta la Proxima!");
+                        System.exit(0);
+                    } else if (ans.equalsIgnoreCase("n")) {
+                        System.out.println("Hasta la Proxima!");
+                        System.exit(0);
                     }
-                } else {
-                    System.out.println("Hasta la Proxima!");
-                    resp = true;
-                    System.exit(0);
                 }
             }
         }
@@ -347,12 +346,13 @@ public class Tablero {
     public static void ganarJuego() {
         if (jugadas.size() >= 6) {
             youWin();
+            endGameShow();
             boolean resp = false;
-            while (resp == false) {
+            while (!resp) {
                 System.out.println(Ut.tBlue("Desea volver a Jugar?, se reseteara el juego (Y/N): "));
                 String ans = sc.nextLine();
                 if (ans.matches("^[YyNn]$")) {
-                    if (ans.equalsIgnoreCase("y")) {
+                    if (ans.equalsIgnoreCase("y")||ans.equalsIgnoreCase("Y")) {
                         System.out.print(Ut.tCyan("Dale!, Vamos por otra Victoria!"));
                         System.out.print(Ut.tPurp("\tTus puntos han sido reseteados y el sistema se ha renovado"));
                         generarTableroM();
@@ -361,14 +361,30 @@ public class Tablero {
                         puntaje = 0;
                         jugadas.removeAll(jugadas);
                         perder = false;
-                    } else {
-                        System.out.println("Hasta la Proxima!");
-                        System.exit(0);
-                    }
+                        resp=true;
+                    } else if (ans.equalsIgnoreCase("N") ||ans.equalsIgnoreCase("n")){
+                            System.out.println("Hasta la Proxima!");
+                            System.exit(0);
+                            resp = true;
+                        }
+
                 } else {
                     System.out.println("opcion invalida");
                 }
             }
+        }
+    }
+
+    public static void endGameShow(){
+        System.out.println("Solo por si acaso, aca estaban las minas ubicadas");
+        System.out.println(Ut.tYell("| 0  1  2  3  4 |"));
+        for (int x = 0; x < tableroM.length; x++) {
+            System.out.print("|");
+            for (int y = 0; y < tableroM[x].length; y++) {
+                System.out.print(tableroM[x][y]);
+                if (y != tableroM[x].length - 1) System.out.print("");
+            }
+            System.out.println("|" + Ut.tYell(String.valueOf(x)));
         }
     }
 }
