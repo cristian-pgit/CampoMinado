@@ -20,18 +20,10 @@ public class Tablero {
     static String[][] tableroJ = new String[5][5];
     static String[][] tableroM = new String[5][5];
 
-    public static void generarTableroM() {
+    public static void generarTablero(String[][] tablero) {
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < 5; j++) {
-                tableroM[i][j] = "[-]"; // inicializar y dejar en valor blanc en ves que esten null.
-            }
-        }
-    }
-
-    public static void generarTableroJ() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
-                tableroJ[i][j] = "[-]"; // inicializar y dejar en valor blanc en ves que esten null.
+                tablero[i][j] = "[-]"; // inicializar y dejar en valor blanc en ves que esten null.
             }
         }
     }
@@ -107,8 +99,8 @@ public class Tablero {
                 if (ans.equalsIgnoreCase("d")) {
                     Tablero.dif = 3;
                     System.out.println(Ut.tRojo("la dificultad actual es Dificil : ") + dif);
-                    generarTableroM();
-                    generarTableroJ();
+                    generarTablero(tableroM);
+                    generarTablero(tableroJ);
                     ubicarMinas(tableroM);
                     puntaje = 0;
                     jugadas.removeAll(jugadas);
@@ -116,8 +108,8 @@ public class Tablero {
                 } else if (ans.equalsIgnoreCase("m")) {
                     Tablero.dif = 2;
                     System.out.println(Ut.tYell("la dificultad actual es Medio : ") + dif);
-                    generarTableroM();
-                    generarTableroJ();
+                    generarTablero(tableroM);
+                    generarTablero(tableroJ);
                     ubicarMinas(tableroM);
                     puntaje = 0;
                     jugadas.removeAll(jugadas);
@@ -125,8 +117,8 @@ public class Tablero {
                 } else {
                     Tablero.dif = 1;
                     System.out.println(Ut.tVerde("la dificultad actual es Facil : ") + dif);
-                    generarTableroM();
-                    generarTableroJ();
+                    generarTablero(tableroM);
+                    generarTablero(tableroJ);
                     ubicarMinas(tableroM);
                     puntaje = 0;
                     jugadas.removeAll(jugadas);
@@ -202,7 +194,7 @@ public class Tablero {
     }
 
     public static void mostrarTableroJ(String[][] tableroJ) {
-        System.out.println("f/c|" + Ut.tYell(" 0  1  2  3  4  |"));
+        System.out.println("f/c|" + Ut.tYell(" 0  1  2  3  4 |"));
         for (int x = 0; x < tableroJ.length; x++) {
             System.out.print(Ut.tYell(String.format("%2d ", x)) + "|");
             for (int y = 0; y < tableroJ[x].length; y++) {
@@ -302,8 +294,8 @@ public class Tablero {
                     if (ans.equalsIgnoreCase("y") ||ans.equalsIgnoreCase("Y")) {
                         System.out.println("Dale!, otra oportunidad... me gusta tu persistencia");
                         System.out.println(Ut.tPurp("\tTus puntos han sido reseteados y el sistema se ha renovado"));
-                        generarTableroM();
-                        generarTableroJ();
+                        generarTablero(tableroM);
+                        generarTablero(tableroJ);
                         ubicarMinas(tableroM);
                         jugadas.removeAll(jugadas);
                         puntaje = 0;
@@ -355,8 +347,8 @@ public class Tablero {
                     if (ans.equalsIgnoreCase("y")||ans.equalsIgnoreCase("Y")) {
                         System.out.print(Ut.tCyan("Dale!, Vamos por otra Victoria!"));
                         System.out.print(Ut.tPurp("\tTus puntos han sido reseteados y el sistema se ha renovado"));
-                        generarTableroM();
-                        generarTableroJ();
+                        generarTablero(tableroM);
+                        generarTablero(tableroJ);
                         ubicarMinas(tableroM);
                         puntaje = 0;
                         jugadas.removeAll(jugadas);

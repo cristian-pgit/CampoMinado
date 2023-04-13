@@ -7,8 +7,8 @@ public class Main {
 
     //funcion main
     public static void main(String[] Args) {
-        board.generarTableroM(); // genera el tablero seteando el valor default del [-]
-        board.generarTableroJ();  // genera el tableroH seteando el valor default del [-]
+        board.generarTablero(board.tableroJ); // genera el tablero seteando el valor default del [-]
+        board.generarTablero(board.tableroM);  // genera el tableroH seteando el valor default del [-]
         board.ubicarMinas(board.tableroM); //ubica las minas.
         //Historia
         System.out.println(Ut.tYell("[BRIEFING]")+Ut.tVerde("Soldado!, ha sido encomendado cruzar el siguente tramo...\n"+
